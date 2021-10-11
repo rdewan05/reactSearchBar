@@ -1,0 +1,36 @@
+import React, { useEffect, useState } from 'react';
+import JsonData from './mock.json';
+import classes from "./AppNew.module.css";
+
+function App() {
+    const [searchTearm, setSearchTerm] = useState('');
+    const [inputValue, setInputValue] = useState();
+    const [showCities, setShowCities] = useState(true);
+
+    const inputHandler = (event) => {
+        setInputValue(event.target.innerText);
+        setShowCities(!showCities);
+    }
+
+    return (
+        <div className={classes.App}>
+            <input type="text" placeholder="Search city..." onChange={event => { setSearchTerm(event.target.value) }} />
+            <div className={classes.container}>
+                {JsonData.filter((val) => {
+                    if (searchTearm === "") {
+                        return val;
+                    }
+                    else if (val.city.toLowerCase().includes(searchTearm.toLowerCase())) {
+                        return val;
+                    }
+                }).map((val, key) => {
+                    return (
+                        <div className={classes.user} key={key}><p onClick={inputHandler}>{val.city}</p></div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+}
+
+export default App;
